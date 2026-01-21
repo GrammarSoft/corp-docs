@@ -10,6 +10,7 @@ ENV LANG=C.UTF-8 \
 	DEBCONF_NONINTERACTIVE_SEEN=true \
 	PERL_UNICODE=SDA \
 	PYTHONPATH="/usr/local/manatee/lib/python${PYTHON_VERSION}/site-packages" \
+	PYTHONHASHSEED=42 \
 	MANATEE_REGISTRY="/home/manatee/storage/registry/" \
 	PATH="${PATH}:/usr/local/manatee/bin"
 
