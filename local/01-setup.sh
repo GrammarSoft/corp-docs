@@ -3,8 +3,8 @@ DIR="$(cd $(dirname $0);pwd)"
 USER_UID=$(id -u)
 USER_GID=$(id -g)
 
-sudo apt-get -qy update
-sudo apt-get -qfy --no-install-recommends composer
+sudo apt-get -qqy update
+sudo apt-get -qfy install --no-install-recommends composer
 
 cd "$DIR"
 pushd docker
@@ -27,7 +27,7 @@ popd
 pushd storage
 	pushd corpora
 		ssh manatee@corp2.visl.dk 'cd storage/corpora; find . -type d -print0' | xargs -0r mkdir -pv
-		ssh manatee@corp2.visl.dk 'cd storage/corpora; find . -type f -print0' | xargs -0r touch
+		ssh manatee@corp2.visl.dk 'cd storage/corpora; find . -type f -print0' | xargs -0r touch -a
 	popd
 	rsync -avzHAXx --partial '--exclude=cache/**' '--include=*/' '--exclude=*.sqlite' '--exclude=corpora/*/*.*' manatee@corp2.visl.dk:./storage/ ./
 popd

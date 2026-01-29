@@ -2,7 +2,7 @@
 DIR="$(cd $(dirname $0);pwd)"
 cd "$DIR"
 
-echo "1) Move or copy the corpus to a zstd-compressed file in $DIR/tmp/sources/ named as e.g. eng_wikipedia.zst"
+echo "1) Move or copy the corpus to a zstd-compressed file in $DIR/tmp/sources/ named as e.g. eng_wikipedia.zst. Symlinks won't work with Docker mounts."
 echo "2) Create corpus registry file in $DIR/tmp/storage/registry/ e.g. eng_wikipedia"
 echo "3) Add the corpus to $DIR/tmp/public_html/_inc/config.php with correct group_by and word2vec arrays if corpus should support those"
 echo "4) Optionally limit access by editing $DIR/tmp/public_html/_inc/auth-impl.php"
@@ -19,4 +19,4 @@ else
 	fi
 fi
 
-sudo docker run -it --rm -v "$DIR/tmp:/home/manatee" --entrypoint /home/manatee/public_html/_bin/encode-corpus gs-manatee "$C"
+sudo docker run -it --rm -v "$DIR/tmp:/home/manatee" --user manatee --entrypoint /home/manatee/public_html/_bin/encode-corpus gs-manatee "$C"
