@@ -16,7 +16,7 @@ ENV LANG=C.UTF-8 \
 
 RUN apt-get -qy update && apt-get install -qfy --no-install-recommends apt-utils
 RUN apt-get -qy update && apt-get -qfy dist-upgrade
-RUN apt-get -qy update && apt-get install -qfy --no-install-recommends wget ca-certificates php-sqlite3 php-mbstring php-cli php-intl sqlite3 coreutils icu-devtools python3 autoconf automake build-essential libtool autoconf-archive bison libpcre3 libpcre3-dev python3-dev python3-gensim swig zstd apache2 libapache2-mod-php
+RUN apt-get -qy update && apt-get install -qfy --no-install-recommends wget ca-certificates php-sqlite3 php-mbstring php-cli php-intl sqlite3 coreutils icu-devtools python3 autoconf automake build-essential libtool autoconf-archive bison libpcre3 libpcre3-dev python3-dev python3-gensim swig zstd apache2 libapache2-mod-php time
 
 RUN wget https://corpora.fi.muni.cz/noske/current/src/manatee-open-2.225.8.tar.gz \
 	&& tar -zxvf manatee-open-2.225.8.tar.gz \
@@ -41,6 +41,7 @@ RUN echo 'export APACHE_RUN_USER=manatee' >> /etc/apache2/envvars && \
 	a2enmod vhost_alias && \
 	a2enmod rewrite && \
 	a2enmod access_compat
+RUN chown -R manatee:manatee /var/log/apache2
 
 COPY apache.conf /etc/apache2/sites-enabled/000-default.conf
 
