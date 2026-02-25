@@ -42,6 +42,7 @@ popd
 
 mkdir -pv tmp/storage/corpora tmp/public_html tmp/bin tmp/sources
 cp -av ../corpus/word2vec tmp/bin/
+chmod -R u+w tmp
 pushd tmp
 
 pushd public_html
