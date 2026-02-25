@@ -63,5 +63,5 @@ pushd storage
 		ssh manatee@corp2.visl.dk 'cd storage/corpora; find . -type d -print0' | xargs -0r mkdir -pv
 		ssh manatee@corp2.visl.dk 'cd storage/corpora; find . -type f -print0' | xargs -0r touch -a
 	popd
-	rsync -avzHAXx --inplace '--exclude=cache/**' '--include=*/' '--exclude=*.sqlite' '--exclude=corpora/*/*.*' manatee@corp2.visl.dk:./storage/ ./
+	rsync -avzHAXx --inplace '--exclude=cache/**' '--include=*/' '--include=*/meta/*' '--exclude=*.sqlite' '--exclude=corpora/*/*.*' manatee@corp2.visl.dk:./storage/ ./
 popd
