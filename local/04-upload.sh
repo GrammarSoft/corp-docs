@@ -42,12 +42,14 @@ pushd tmp/public_html
 	rsync -avzHAXx --inplace manatee@corp2.visl.dk:./public_html/_inc/auth-impl.php "/tmp/corp-$$.auth"
 	echo ""
 
+	Y="y"
 	if [ "/tmp/corp-$$.config" -nt "_inc/config.php" ]; then
 		read -p "Server has newer config.php - someone has potentially made conflicting changes! Next step will rsync and overwrite those changes. Hit Ctrl-C to stop here, or Y to continue: " Y
 	fi
 	if [ "$Y" != "y" ] && [ "$Y" != "Y" ]; then
 		exit
 	fi
+	Y="y"
 	if [ "/tmp/corp-$$.auth" -nt "_inc/auth-impl.php" ]; then
 		read -p "Server has newer auth-impl.php - someone has potentially made conflicting changes! Next step will rsync and overwrite those changes. Hit Ctrl-C to stop here, or Y to continue: " Y
 	fi

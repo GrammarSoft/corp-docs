@@ -3,13 +3,14 @@ DIR="$(cd $(dirname $0);pwd)"
 USER_UID=$(id -u)
 USER_GID=$(id -g)
 
-if [ ! -s "/etc/apt/sources.list.d/docker.sources" ]; then
+sudo apt-get -qqy update
+
+if [ ! -s "/etc/apt/sources.list.d/docker.sources" ] || ! command -v "docker"; then
 	echo "Installing Docker from https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository - if you don't want this, hit Ctrl-C within 10 seconds"
 	echo ""
 	sleep 10
 
 	sudo apt-get remove $(dpkg --get-selections docker.io docker-compose docker-compose-v2 docker-doc podman-docker containerd runc | cut -f1)
-	sudo apt-get -qqy update
 	sudo apt-get -qfy install ca-certificates curl
 	sudo install -m 0755 -d /etc/apt/keyrings
 	sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
@@ -23,10 +24,15 @@ Components: stable
 Signed-By: /etc/apt/keyrings/docker.asc
 EOF
 
+	sudo apt-get -qqy update
 	sudo apt-get -qfy install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 fi
 
-sudo apt-get -qqy update
+if ! command -v "docker" ; then
+	echo "Need Docker to continue. Install manually from https://docs.docker.com/engine/install"
+	exit
+fi
+
 sudo apt-get -qfy install --no-install-recommends composer
 
 cd "$DIR"
@@ -39,6 +45,7 @@ cp -av ../corpus/word2vec tmp/bin/
 pushd tmp
 
 pushd public_html
+	Y="y"
 	if [ -s "_inc/config.php" ]; then
 		read -p "config.php already exists - next step will rsync and overwrite local changes. Hit Ctrl-C to stop here, or Y to continue: " Y
 	fi
