@@ -57,14 +57,6 @@ while (defined(my $input = <>)) {
    }
 
    $input =~ s/[\x{7F}-\x{9F}]+//g;
-
-   if (length($input) >= 200) {
-      if (! ($input =~ /^</) || $input =~ /^</ && ! ($input =~ /> *$/)) {goto slut;} # ignoring unreasonably long lines from wild internet input (e.g. web_es_iso)
-      else {
-         $input =~ s/^(<.{50}).*?(\"?>?\n)/$1$2/;
-      }
-   }
-#   $input =~ s/^\$([^0-9]+?)[ \t].*/\$$1/; # punctuation with readings
    $input =~ s/§ARG[0-9]& //g;
 
    # Extract semantic roles

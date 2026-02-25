@@ -26,6 +26,7 @@ my %fs = (
 
 my @lines = ();
 my %deps = ();
+my $n = 0;
 
 sub process {
    if (!scalar(@lines)) {
@@ -33,15 +34,21 @@ sub process {
    }
 
    for my $line (@lines) {
+      my $p = @{$line}[$fs{'dparent'}];
+
       print join("\t", @$line);
       if (@{$line}[$fs{'dself'}] == 0) {
          print "\t\t\t\t\t\t\t\t\t\t";
       }
-      elsif (@{$line}[$fs{'dparent'}] == 0) {
+      elsif ($p == 0) {
          print "\t¤\t¤\t\tPU\t\tSTART\t\t0\t0\t_End!_";
       }
-      elsif (@{$line}[$fs{'dparent'}] && exists($deps{@{$line}[$fs{'dparent'}]}) && @{$deps{@{$line}[$fs{'dparent'}]}}) {
-         print "\t".join("\t", @{$deps{@{$line}[$fs{'dparent'}]}});
+      elsif ($p && exists($deps{$p}) && @{$deps{$p}}) {
+         print "\t".join("\t", @{$deps{$p}});
+      }
+      else {
+         print STDERR "WARNING: Parent $p did not exist before line $n\n";
+         print "\t\t\t\t\t\t\t\t\t\t";
       }
       print "\n";
    }
@@ -51,6 +58,7 @@ sub process {
 }
 
 while (<STDIN>) {
+   ++$n;
    chomp;
    my @line = split(m@\t@);
 
