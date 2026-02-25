@@ -34,7 +34,13 @@ sub process {
 
    for my $line (@lines) {
       print join("\t", @$line);
-      if (@{$line}[$fs{'dparent'}] && exists($deps{@{$line}[$fs{'dparent'}]}) && @{$deps{@{$line}[$fs{'dparent'}]}}) {
+      if (@{$line}[$fs{'dself'}] == 0) {
+         print "\t\t\t\t\t\t\t\t\t\t";
+      }
+      elsif (@{$line}[$fs{'dparent'}] == 0) {
+         print "\t¤\t¤\t\tPU\t\tSTART\t\t0\t0\t_End!_";
+      }
+      elsif (@{$line}[$fs{'dparent'}] && exists($deps{@{$line}[$fs{'dparent'}]}) && @{$deps{@{$line}[$fs{'dparent'}]}}) {
          print "\t".join("\t", @{$deps{@{$line}[$fs{'dparent'}]}});
       }
       print "\n";
