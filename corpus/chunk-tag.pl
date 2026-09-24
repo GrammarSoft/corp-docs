@@ -10,10 +10,6 @@ BEGIN {
    binmode(STDOUT);
 }
 
-if (exists $ENV{'PERL_UNICODE'} && $ENV{'PERL_UNICODE'}) {
-   die("Envvar PERL_UNICODE should be empty for chunking!\n");
-}
-
 my $tag = 's';
 my $chunk = 100;
 my $outname = 'split';
@@ -33,6 +29,7 @@ $chunk *= 1024 * 1024;
 my $cur = 0;
 my $outfile = $outname.'-'.sprintf('%05d', $cur).'.zst';
 open(my $zo, '|-', "zstd -8 -T0 >$outfile");
+binmode($zo);
 
 my $cz = 0;
 my $outbuf = '';
@@ -45,6 +42,7 @@ while (my $line = <STDIN>) {
       $outfile = $outname.'-'.sprintf('%05d', $cur).'.zst';
       print STDERR "$outfile ...\n";
       open($zo, '|-', "zstd -8 -T0 >$outfile");
+      binmode($zo);
       $cz = 0;
       $outbuf = '';
    }
