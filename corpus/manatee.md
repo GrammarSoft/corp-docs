@@ -3,12 +3,12 @@
 ## Build Manatee
 ```
 # Ideally build in a container or chroot and then export the result
-apt-get install autoconf automake build-essential libtool autoconf-archive bison libpcre3-dev python3-dev swig
-wget https://corpora.fi.muni.cz/noske/current/src/manatee-open-2.223.6.tar.gz
-tar -zxvf manatee-open-2.223.6.tar.gz
-cd manatee-open-2.223.6
+apt-get install autoconf automake build-essential libtool autoconf-archive bison libpcre2-dev python3-dev swig
+wget https://corpora.fi.muni.cz/noske/current/src/manatee-open-2.238.7.tar.gz
+tar -zxvf manatee-open-2.238.7.tar.gz
+cd manatee-open-2.238.7.tar.gz
 autoreconf -fvi
-./configure --with-pcre --prefix=/usr/local/manatee
+./configure --with-pcre2 --prefix=/usr/local/manatee
 make -j8
 make install
 ```
